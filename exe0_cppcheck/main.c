@@ -9,8 +9,8 @@ int multiplyNumbers(int x, int y) {
 }
 
 int main(void) {
-    int a;
-    int b;
+    int a = 2;
+    int b = 4;
     int result = multiplyNumbers(a,b);
 
     int arr[NUM_ELEMENTS];
