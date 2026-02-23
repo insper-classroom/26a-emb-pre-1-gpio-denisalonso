@@ -16,8 +16,8 @@ int main() {
     gpio_set_dir(BTN2, GPIO_IN);
     gpio_pull_up(BTN2);
 
-    int cnt_1 = 1;
-    int cnt_2 = 1;
+    int cnt_1 = 0;
+    int cnt_2 = 0;
 
     while (true) {
         if (!gpio_get(BTN1)) {
