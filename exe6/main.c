@@ -9,7 +9,6 @@ void seven_seg_init(void) {
     for (int gpio = FIRST_GPIO; gpio < FIRST_GPIO + 7; gpio++) {
         gpio_init(gpio);
         gpio_set_dir(gpio, GPIO_OUT);
-        gpio_put(gpio, 0);
     }
 }
 
