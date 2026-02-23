@@ -4,6 +4,7 @@
 
 const int FIRST_GPIO = 2;
 const int BTN_PIN_G = 28;
+int cnt;
 
 void seven_seg_init(void) {
     for (int gpio = FIRST_GPIO; gpio < FIRST_GPIO + 7; gpio++) {
@@ -12,7 +13,7 @@ void seven_seg_init(void) {
     }
 }
 
-void seven_seg_display(int value) {
+void seven_seg_display() {
     const int bits[10] = {
         0x3f,  // 0
         0x06,  // 1
@@ -26,22 +27,17 @@ void seven_seg_display(int value) {
         0x67   // 9
     };
 
-    // intervalo 0-9
-    if (value < 0) value = 0;
-    if (value > 9) value = value % 10;
-
-    int pattern = bits[value];
+    int value = bits[cnt];
     for (int i = 0; i < 7; i++) {
         int gpio = FIRST_GPIO + i;
-        int bit = (pattern >> i) & 1;
+        int bit = (value >> i) & 1;
         gpio_put(gpio, bit);
     }
 }
 
 int main(void) {
     stdio_init_all();
-
-    int cnt = 0;
+    int last_btn;
 
     gpio_init(BTN_PIN_G);
     gpio_set_dir(BTN_PIN_G, GPIO_IN);
@@ -50,26 +46,17 @@ int main(void) {
     seven_seg_init();
     seven_seg_display(cnt);
 
-    int last_btn = 1;
-
+    
     while (true) {
         int btn = gpio_get(BTN_PIN_G);
 
-        if (last_btn == 1 && btn == 0) {
-            
-            sleep_ms(50);
-            if (gpio_get(BTN_PIN_G) == 0) {
-                cnt++;
-                if (cnt > 9) cnt = 0;
-                seven_seg_display(cnt);
-                printf("cnt: %d\n", cnt);
-
-                while (gpio_get(BTN_PIN_G) == 0) {
-                    sleep_ms(10);
-                }
+        if (last_btn && !btn) {
+            if (++cnt > 9) {
+                cnt = 0;
             }
+            seven_seg_display();
+            printf("cnt: %d\n", cnt);
         }
-
         last_btn = btn;
         sleep_ms(10); // polling interval
     }
