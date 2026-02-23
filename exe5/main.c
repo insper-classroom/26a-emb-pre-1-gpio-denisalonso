@@ -16,26 +16,28 @@ int main() {
     gpio_set_dir(BTN2, GPIO_IN);
     gpio_pull_up(BTN2);
 
-    int cnt_1 = 0;
-    int cnt_2 = 0;
-    bool last_state_btn1 = true;
-    bool last_state_btn2 = true;
+    int cnt_1 = 1;
+    int cnt_2 = 1;
 
     while (true) {
-        bool current_state_1 = gpio_get(BTN1);
-        if (last_state_btn1 == true && current_state_1 == false) {
-            cnt_1++;
-            printf("Botao 1: %d\n", cnt_1);
+        if (!gpio_get(BTN1)) {
+            sleep_ms(50);
+            if (!gpio_get(BTN1)) {
+                printf("Botao 1: %d\n", cnt_1++);
+                while (!gpio_get(BTN1)) {
+                    sleep_ms(50);
+                }
+            }
         }
-        last_state_btn1 = current_state_1;
-        sleep_ms(10);
 
-        bool current_state_2 = gpio_get(BTN2);
-        if (last_state_btn2 == true && current_state_2 == false) {
-            cnt_2++;
-            printf("Botao 2: %d\n", cnt_2);
+        if (!gpio_get(BTN2)) {
+            sleep_ms(50);
+            if (!gpio_get(BTN2)) {
+                printf("Botao 2: %d\n", cnt_2++);
+                while (!gpio_get(BTN2)) {
+                    sleep_ms(50);
+                }
+            }
         }
-        last_state_btn2 = current_state_2;
-        sleep_ms(10);
     }
 }
