@@ -21,21 +21,21 @@ int main() {
 
     while (true) {
         if (!gpio_get(BTN1)) {
-            sleep_ms(50);
+            sleep_ms(30);
             if (!gpio_get(BTN1)) {
                 printf("Botao 1: %d\n", cnt_1++);
                 while (!gpio_get(BTN1)) {
-                    sleep_ms(50);
+                    sleep_ms(30);
                 }
             }
         }
 
         if (!gpio_get(BTN2)) {
-            sleep_ms(50);
+            sleep_ms(30);
             if (!gpio_get(BTN2)) {
                 printf("Botao 2: %d\n", cnt_2++);
                 while (!gpio_get(BTN2)) {
-                    sleep_ms(50);
+                    sleep_ms(30);
                 }
             }
         }
