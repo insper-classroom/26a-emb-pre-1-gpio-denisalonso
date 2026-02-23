@@ -8,10 +8,6 @@ const int BTNr = 28;
 const int LEDg = 6;
 const int BTNg = 26;
 
-// on/off vars
-int status_r = 0;
-int status_g = 0;
-
 
 int main() {
   stdio_init_all();
@@ -27,6 +23,10 @@ int main() {
   gpio_pull_up(BTNg);
   gpio_init(LEDg);
   gpio_set_dir(LEDg, GPIO_OUT);
+
+  // on/off vars
+  int status_r = 0;
+  int status_g = 0;
 
   while (true) {
     if (!gpio_get(BTNr)) {
